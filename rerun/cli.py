@@ -16,6 +16,7 @@ from . import __version__
 from .app import App, Options
 from .core.content import ContentError, load_content
 from .extras.replay import ReplayError, load_replay
+from .extras.share import daily_seed
 from .persistence.save import SaveStore, save_dir
 from .ui.terminal import PlainIO, TerminalIO
 from .ui.theme import Theme, can_encode_unicode
@@ -26,6 +27,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="rerun", description="RERUN - same town, same afternoon, text only.")
     p.add_argument("--new", action="store_true", help="ignore the saved run and start fresh")
     p.add_argument("--seed", type=int, help="seed for gossip and Kai's wandering (same seed = same day)")
+    p.add_argument("--daily", action="store_true", help="today's daily challenge (same seed for everyone)")
     p.add_argument("--mono", action="store_true", help="no colours")
     p.add_argument("--ascii", action="store_true", help="pure ASCII characters only")
     p.add_argument("--plain", action="store_true", help="line-based input: type keys, then Enter")
@@ -69,9 +71,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.record and args.replay:
         print("rerun: use either --record or --replay, not both.", file=sys.stderr)
         return 2
+    if args.daily:
+        args.seed = daily_seed()
     options = Options(new=args.new, seed=args.seed, mono=args.mono, ascii=args.ascii, plain=args.plain,
                       reduced_motion=args.reduced_motion, record=args.record, replay=args.replay,
-                      debug=args.debug, pack=args.pack, replay_delay=0.04 / max(0.1, args.replay_speed))
+                      debug=args.debug, pack=args.pack, daily=args.daily, replay_delay=0.2 / max(0.1, args.replay_speed))
     replay_keys = []
     if args.replay:
         try:

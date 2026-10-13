@@ -48,7 +48,8 @@ class Options:
     replay: Path | None = None
     debug: bool = False
     pack: str = "marrow"
-    replay_delay: float = 0.04
+    daily: bool = False
+    replay_delay: float = 0.2
 
 
 class App:
@@ -106,7 +107,7 @@ class App:
     # ---------------------------------------------------------- game flow
     def start(self) -> None:
         """Pick the first screen."""
-        if self.options.replay is not None or self.options.record is not None:
+        if self.options.replay is not None or self.options.record is not None or self.options.daily:
             self.new_game(self.options.seed)
             if self.options.record is not None:
                 self.recorder = Recorder(self.options.record, self.game.state.seed, self.content.pack)
@@ -220,6 +221,8 @@ class App:
 
     def finish_run(self) -> None:
         """A win: record the best score and clear the saved run."""
+        if self.options.daily:
+            return  # the daily challenge never touches the main save
         loops = len(self.game.state.stats.outcomes)
         best = self.save_data.best_loops
         self.save_data.best_loops = loops if best is None else min(best, loops)
@@ -229,7 +232,7 @@ class App:
     def persist(self) -> None:
         """Save settings and (if a run is active) knowledge + stats."""
         game = self.game
-        if game is not None and game.state.outcome != Outcome.SAVED:
+        if game is not None and game.state.outcome != Outcome.SAVED and not self.options.daily:
             s = game.state
             loop = s.loop + 1 if s.outcome else s.loop
             ghost = s.player.trail if s.outcome else s.ghost

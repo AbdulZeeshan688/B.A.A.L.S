@@ -1,0 +1,265 @@
+{"rerun_replay": 1, "seed": 2026, "pack": "marrow"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "ENTER"}
+{"k": "DOWN"}
+{"k": "DOWN"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "3"}
+{"k": "ESC"}
+{"k": "RIGHT"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "2"}
+{"k": "ESC"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
+{"k": "ENTER"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "LEFT"}
+{"k": "CHAR", "c": "."}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "3"}
+{"k": "ESC"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "RIGHT"}
+{"k": "UP"}
+{"k": "UP"}
+{"k": "LEFT"}
+{"k": "CHAR", "c": "e"}
+{"k": "CHAR", "c": "3"}
+{"k": "CHAR", "c": "2"}
+{"k": "ESC"}
+{"k": "CHAR", "c": "t"}
+{"k": "CHAR", "c": "1"}
+{"k": "CHAR", "c": "4"}
+{"k": "CHAR", "c": ":"}
+{"k": "CHAR", "c": "0"}
+{"k": "CHAR", "c": "0"}
+{"k": "ENTER"}
