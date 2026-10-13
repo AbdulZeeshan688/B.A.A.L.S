@@ -33,3 +33,27 @@ def test_npcs_only_stand_on_walkable_tiles(game):
         for npc_id, st in game.state.npcs.items():
             if st.present:
                 assert game.world.is_floor(st.pos) or game.world.char(st.pos) == "D", (npc_id, st.pos)
+
+
+def test_people_wait_while_you_stand_next_to_them(game):
+    from conftest import advance_to
+
+    advance_to(game, "09:10")  # Vera is walking to the cafe
+    vera = game.state.npcs["vera"]
+    game.state.player.pos = (vera.pos[0] + 1, vera.pos[1])
+    before = vera.pos
+    for _ in range(5):
+        game.wait()
+    assert vera.pos == before, "she waits while you're beside her"
+    for _ in range(3):
+        game.wait()
+    assert vera.pos != before, "but not forever"
+
+
+def test_vera_does_not_stop_when_running_to_the_valve(game):
+    vera = game.state.npcs["vera"]
+    vera.goto = "valve_hut"
+    game.state.player.pos = (vera.pos[0] + 1, vera.pos[1])
+    before = vera.pos
+    game.wait()
+    assert vera.pos != before

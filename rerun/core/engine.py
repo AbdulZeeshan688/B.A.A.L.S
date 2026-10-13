@@ -21,6 +21,8 @@ from .rng import GameRng
 from .state import Event, GameState, Outcome, Stats
 from .world import Pos, chebyshev
 
+PAUSE_TICKS = 5  # people wait up to 10 minutes beside you, then carry on
+
 
 @dataclass(frozen=True)
 class Target:
@@ -382,6 +384,11 @@ class Game:
                 self._say(entry.text if entry and entry.text else f"{npc.name} has left town.", "important")
                 continue
             st.target = target
+            if not st.goto and chebyshev(st.pos, self.state.player.pos) <= 1 and st.paused < PAUSE_TICKS:
+                st.paused += 1  # they wait a little when you're right next to them
+                continue
+            if chebyshev(st.pos, self.state.player.pos) > 1:
+                st.paused = 0
             dist = self.world.distance_map(target, self._npc_passable, "npc")
             for _ in range(npc.speed):
                 st.pos = self.world.step_towards(st.pos, dist)

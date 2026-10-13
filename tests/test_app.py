@@ -189,5 +189,5 @@ def test_goal_marker_and_directions(isolated_home):
     app = make_app(isolated_home)
     new_game(app)
     screen = text(app)
-    assert "Go: V Vera" in screen and "steps west" in screen
+    assert "Go: V Vera, 25 steps W" in screen
     assert "▼" in screen

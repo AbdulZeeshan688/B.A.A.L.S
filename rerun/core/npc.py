@@ -59,6 +59,7 @@ class NpcState:
     goto: str | None = None
     wander_picks: dict[int, Pos] = field(default_factory=dict)
     target: Pos | None = None
+    paused: int = 0
 
     def snapshot(self) -> dict:
         """Plain-data view, used for determinism checks and debugging."""

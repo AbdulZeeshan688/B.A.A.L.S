@@ -51,7 +51,7 @@ def draw_goal_marker(c: Canvas, game: Game, blink_on: bool) -> None:
 
 
 def goal_directions(game: Game) -> str:
-    """'Go: V Vera, 12 steps north-west' for the map footer."""
+    """'Go: V Vera, 12 steps NW' for the map border (fits in 54 characters)."""
     goal, pos = game.current_goal(), game.goal_position()
     if goal is None or pos is None:
         return ""
@@ -64,13 +64,24 @@ def goal_directions(game: Game) -> str:
     else:
         name = game.world.region(ident).name
     me = game.state.player.pos
+    if max(abs(pos[0] - me[0]), abs(pos[1] - me[1])) <= 1:
+        return f"Go: {name} is right here, press E!"
+    if kind == "npc":
+        st = game.state.npcs[ident]
+        if st.target and st.target != st.pos:  # walking: send the player to where they're heading
+            pos = st.target
+            name = f"{name}, heading to {game.region_name(pos)}:"
+        else:
+            name += ","
+    else:
+        name += ","
     dx, dy = pos[0] - me[0], pos[1] - me[1]
     steps = max(abs(dx), abs(dy))
-    if steps <= 1:
-        return f"Go: {name} is right here, press E!"
-    way = "-".join(w for w, on in (("north", dy < 0), ("south", dy > 0)) if on and abs(dy) * 2 >= abs(dx))
-    way2 = "-".join(w for w, on in (("west", dx < 0), ("east", dx > 0)) if on and abs(dx) * 2 >= abs(dy))
-    return f"Go: {name}, {steps} steps {'-'.join(p for p in (way, way2) if p)}"
+    if steps == 0:
+        return f"Go: wait here for {name.split(',')[0]}"
+    compass = ("N" if dy < 0 and abs(dy) * 2 >= abs(dx) else "S" if dy > 0 and abs(dy) * 2 >= abs(dx) else "")
+    compass += ("W" if dx < 0 and abs(dx) * 2 >= abs(dy) else "E" if dx > 0 and abs(dx) * 2 >= abs(dy) else "")
+    return f"Go: {name} {steps} steps {compass}"
 
 
 def draw_map(c: Canvas, game: Game, ghost: bool, flood_rows: int = 0, debug: bool = False) -> None:
