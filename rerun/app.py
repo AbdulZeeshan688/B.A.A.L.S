@@ -122,7 +122,7 @@ class App:
         warnings = [e for e in self.log if e.kind == "warn"]
         self.log = []
         self.collect_events()
-        self.notify("Tip: stand next to someone and press E to talk. Press ? for help.", "important")
+        self.notify("Tip: hold an arrow key to walk. N opens your notebook, ? shows help.", "important")
         self.log.extend(warnings)  # e.g. "save file was corrupt" stays visible
         self.reset_to(GameScreen(self))
         self.persist()

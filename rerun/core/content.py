@@ -122,6 +122,7 @@ class Content:
     flood_learn: str | None
     rules: Rules = field(default_factory=Rules)
     items: dict[str, str] = field(default_factory=dict)
+    hints: tuple[Branch, ...] = ()
 
     def npc(self, npc_id: str) -> NpcDef:
         """NPC definition by id."""
@@ -308,6 +309,7 @@ def _check_references(content_bits: dict, facts: dict[str, Fact], npc_ids: set[s
         problems.append(f"npc {npc_id!r} has no dialogue")
     for obj in content_bits["objects"]:
         check_branches(obj.use, f"objects.{obj.id}")
+    check_branches(content_bits.get("hints", ()), "hints")
     for door in content_bits["doors"]:
         check_cond(door.open_if, f"doors.{door.id}")
         check_cond(door.locked_if, f"doors.{door.id}")
@@ -343,9 +345,15 @@ def load_content(pack: str = DEFAULT_PACK, packs_dir: Path | None = None) -> Con
     dialogue = {npc_id: parse_dialogue(d, npc_id, problems) for npc_id, d in dialogue_raw.items()}
     _fail_if("dialogue.json", problems)
 
+    hints: tuple[Branch, ...] = ()
+    if (root / "hints.json").exists():
+        hints = parse_branches(_read_json(root / "hints.json"), "hints", problems)
+        _fail_if("hints.json", problems)
+
     npc_ids = {n.id for n in npcs}
-    problems = _check_references({"dialogue": dialogue, "objects": objects, "doors": doors}, facts, npc_ids, world)
-    _fail_if("dialogue.json / world.json", problems)
+    problems = _check_references({"dialogue": dialogue, "objects": objects, "doors": doors, "hints": hints},
+                                 facts, npc_ids, world)
+    _fail_if("dialogue.json / world.json / hints.json", problems)
 
     announcements = []
     for i, a in enumerate(world_raw.get("announcements", [])):
@@ -375,4 +383,4 @@ def load_content(pack: str = DEFAULT_PACK, packs_dir: Path | None = None) -> Con
     return Content(pack, world_raw.get("name", pack), world_raw.get("tagline", ""), world_raw.get("intro", ""),
                    world, start, tuple(npcs), dialogue, facts, questions, tuple(doors), tuple(objects),
                    tuple(announcements), omens, win, flood_learn, rules,
-                   {str(k): str(v) for k, v in world_raw.get("items", {}).items()})
+                   {str(k): str(v) for k, v in world_raw.get("items", {}).items()}, hints)

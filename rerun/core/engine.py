@@ -133,6 +133,11 @@ class Game:
         """True if the player already chose this topic this loop."""
         return f"{npc_id}.{topic_id}" in self.state.used_topics
 
+    def current_hint(self) -> str | None:
+        """The 'what to try next' line: first hint whose condition matches right now."""
+        branch = pick(self.content.hints, self, None)
+        return branch.text if branch else None
+
     def drain_events(self) -> list[Event]:
         """Return and clear pending events for the UI."""
         events, self.state.events = self.state.events, []

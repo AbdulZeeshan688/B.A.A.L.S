@@ -86,9 +86,9 @@ class TitleScreen(Screen):
 
 HELP = [
     ("GOAL", "bold"),
-    ("At 14:00 the dam breaks and Marrow floods. Then it's 08:00 again.", ""),
-    ("You keep only your NOTEBOOK. Learn who knows what, and stop the flood.", ""),
-    ("Options marked [from notes] exist because of something you learned.", ""),
+    ("At 14:00 the dam breaks and the town floods. Then the day starts over at 08:00.", ""),
+    ("You keep only your NOTEBOOK. Talk to people, learn secrets, save the town.", ""),
+    ("Stuck? The GOAL line under the map always says what to try next.", "fact"),
     ("", ""),
     ("CONTROLS   every action costs 2 minutes; choosing what to say is free", "bold"),
     ("  WASD / arrows  move              E / Enter  talk to / use what's next to you", ""),
@@ -124,16 +124,16 @@ class SettingsScreen(Screen):
     """Toggle colour, ASCII-only, reduced motion, ghost trail."""
 
     FIELDS = [("color", "Colours"), ("ascii_only", "ASCII-only characters"),
-              ("reduced_motion", "Reduced motion"), ("ghost", "Ghost trail")]
+              ("reduced_motion", "Reduced motion"), ("ghost", "Ghost trail"), ("hints", "GOAL hints")]
 
     def render(self, c: Canvas) -> None:
-        c.box(15, 5, 50, 12, "SETTINGS", title_style="title")
+        c.box(15, 5, 50, 14, "SETTINGS", title_style="title")
         for i, (field, label) in enumerate(self.FIELDS):
             value = getattr(self.app.settings, field)
             c.put(18, 7 + i * 2, f"{i + 1}) {label:<26} [{'ON ' if value else 'OFF'}]", "ok" if value else "")
         if self.app.options.mono or self.app.options.ascii:
-            c.put(18, 15, "(command-line flags override these)", "dim")
-        key_bar(c, 23, "[1-4] toggle  [Esc] back")
+            c.put(18, 17, "(command-line flags override these)", "dim")
+        key_bar(c, 23, "[1-5] toggle  [Esc] back")
 
     def handle(self, key: KeyEvent) -> None:
         num = number_key(key)

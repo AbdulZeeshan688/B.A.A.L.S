@@ -120,8 +120,12 @@ def draw_panel(c: Canvas, game: Game, debug: bool) -> None:
         c.put(PANEL_X + 2, 2 + room + i, text[:inner], style)
 
 
-def draw_messages(c: Canvas, log: list[Event]) -> None:
-    """Two most recent messages, newest at the bottom."""
+def draw_messages(c: Canvas, log: list[Event], hint: str | None = None) -> None:
+    """GOAL hint (if any) above the latest message; otherwise the two latest messages."""
+    if hint:
+        x = c.put(1, 21, " GOAL ", "key")
+        c.put(x + 1, 21, hint[: 78 - x], "fact")
+        log = log[-1:]
     recent = log[-2:]
     for i, event in enumerate(recent):
         y = 22 - (len(recent) - 1 - i)
@@ -140,7 +144,7 @@ def draw_game(c: Canvas, app) -> None:
           footer=("Nearby: " + ", ".join(nearby)) if nearby else "Nobody in sight")
     draw_map(c, game, app.settings.ghost, debug=debug)
     draw_panel(c, game, debug)
-    draw_messages(c, app.log)
+    draw_messages(c, app.log, game.current_hint() if app.settings.hints else None)
     key_bar(c, 23, GAME_KEYS)
 
 

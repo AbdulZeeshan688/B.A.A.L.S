@@ -33,6 +33,7 @@ class Settings:
     ascii_only: bool = False
     reduced_motion: bool = False
     ghost: bool = True
+    hints: bool = True
 
     @classmethod
     def from_dict(cls, data: object) -> "Settings":
