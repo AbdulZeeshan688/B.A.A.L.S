@@ -16,7 +16,7 @@ def test_hint_follows_the_honest_route(game):
     game.state.notebook.learn("key_with_tomas", 1)
     assert "10:20 bus" in game.current_hint()
     game.state.player.items.add("key")
-    assert "give the key" in game.current_hint()
+    assert "give her the key" in game.current_hint()
     game.state.flags.add("vera_has_key")
     assert "14:00" in game.current_hint()
 
