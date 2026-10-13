@@ -108,7 +108,12 @@ class World:
         return None
 
     def line_of_sight(self, a: Pos, b: Pos) -> bool:
-        """Bresenham line from a to b; blocked by opaque tiles in between."""
+        """True if a can see b. Symmetric: either Bresenham direction being clear is enough,
+        so someone beside a doorway can see a person stepping into it."""
+        return self._clear_line(a, b) or self._clear_line(b, a)
+
+    def _clear_line(self, a: Pos, b: Pos) -> bool:
+        """Bresenham line from a to b; blocked by opaque tiles strictly in between."""
         (x0, y0), (x1, y1) = a, b
         dx, dy = abs(x1 - x0), -abs(y1 - y0)
         sx, sy = (1 if x0 < x1 else -1), (1 if y0 < y1 else -1)

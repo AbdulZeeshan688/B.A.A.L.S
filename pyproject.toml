@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rerun-game"
+version = "1.0.0"
+description = "RERUN - a time-loop mystery in the terminal. Same town. Same afternoon. Text only."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+classifiers = [
+    "Environment :: Console",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+rerun = "rerun.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["rerun*"]
+
+[tool.setuptools.package-data]
+"rerun.content" = ["*/*.txt", "*/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]

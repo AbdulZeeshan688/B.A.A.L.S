@@ -11,7 +11,7 @@
     {"id": "valve_hut", "name": "the Valve Hut", "rect": [8, 3, 18, 6], "spots": [[13, 5], [10, 5]]},
     {"id": "mill", "name": "the Mill", "rect": [31, 3, 39, 6], "spots": [[33, 5], [37, 5], [37, 4]]},
     {"id": "forest", "name": "the Forest edge", "rect": [40, 3, 57, 6]},
-    {"id": "bar_back", "name": "behind the Bar", "rect": [2, 7, 10, 7], "spots": [[4, 7], [9, 7]]},
+    {"id": "bar_back", "name": "behind the Bar", "rect": [2, 7, 10, 7], "spots": [[4, 7], [8, 7]]},
     {"id": "mill_road", "name": "Mill Road", "rect": [0, 7, 57, 7]},
     {"id": "bar", "name": "the Bar", "rect": [2, 8, 10, 11], "spots": [[5, 10], [8, 9]]},
     {"id": "cafe", "name": "the Cafe", "rect": [13, 8, 22, 11], "spots": [[15, 10], [20, 9], [19, 10]]},
