@@ -1,0 +1,99 @@
+{
+  "vera": {
+    "greeting": [
+      {"if": {"flags": ["vera_has_key"]}, "text": "\"No time! The valve!\""},
+      {"if": {"rumour": "thief"}, "text": "\"You. Kai told me what you did at the bar. Keep walking.\""},
+      {"if": {"after": "12:00"}, "text": "\"Council meeting ran long. Again. What is it?\""},
+      {"text": "\"Vera Lind, dam engineer. If this is about the dam: it's fine. I checked the numbers yesterday.\""}
+    ],
+    "topics": [
+      {"id": "dam", "label": "Ask about the dam", "replies": [
+        {"text": "\"Concrete, 1961. Old, but she holds. If you want the truth, read the gauge by the dam. Numbers don't lie.\""}
+      ]},
+      {"id": "warn", "label": "\"The dam breaks at 14:00.\"", "requires": {"facts": ["dam_breaks"], "no_flags": ["vera_convinced"]}, "replies": [
+        {"text": "\"Says who? Bring me a measurement, not a feeling.\""}
+      ]},
+      {"id": "gauge", "label": "\"The gauge reads 9.4 m.\"", "requires": {"facts": ["gauge_reading"], "no_flags": ["vera_convinced"]}, "replies": [
+        {"if": {"rumour": "thief"}, "text": "\"I don't take help from thieves.\"", "effects": [{"learn": "vera_thieves"}]},
+        {"if": {"max_trust": 39}, "text": "\"You've been pestering me all day. Go away.\""},
+        {"text": "\"9.4? That's over the red line... If that's true, only the relief valve can save us. But the key went missing with old Oskar.\"", "effects": [{"learn": "valve_exists"}, {"set_flag": "vera_convinced"}, {"trust": 10}]}
+      ]},
+      {"id": "give_key", "label": "Give her Oskar's valve key", "requires": {"items": ["key"]}, "replies": [
+        {"if": {"rumour": "thief"}, "text": "\"Where did you get that? I don't take help from thieves.\"", "effects": [{"learn": "vera_thieves"}]},
+        {"if": {"flags": ["vera_convinced"]}, "text": "\"Oskar's key! Then there's still time. Out of my way!\" She runs for the Valve Hut.", "effects": [{"take_item": "key"}, {"set_flag": "vera_has_key"}, {"goto": "valve_hut"}]},
+        {"text": "\"A rusty old key? Lovely. Why would I need that?\""}
+      ]}
+    ]
+  },
+  "tomas": {
+    "greeting": [
+      {"if": {"place": "bus_stop"}, "text": "\"The bus is late. Of course it is.\""},
+      {"text": "\"We're closed. I've got a bus to catch.\""}
+    ],
+    "topics": [
+      {"id": "dam", "label": "Ask about the dam", "replies": [
+        {"text": "\"Old Oskar used to say the water talks before it moves. Maybe that's why I'm leaving.\""}
+      ]},
+      {"id": "leaving", "label": "\"Where are you going?\"", "replies": [
+        {"text": "\"Anywhere. 10:20 bus. I'm done with Marrow.\"", "effects": [{"learn": "tomas_leaves"}]}
+      ]},
+      {"id": "tab", "label": "\"Oskar's key, for his bar tab.\"", "requires": {"facts": ["key_with_tomas"], "no_flags": ["key_found"]}, "replies": [
+        {"text": "He stares at you. \"How do you know about that? ...Fine. Take it. I'm never coming back anyway.\"", "effects": [{"give_item": "key"}, {"set_flag": "key_found"}, {"trust": 10}]}
+      ]}
+    ]
+  },
+  "ilse": {
+    "greeting": [
+      {"text": "\"Pharmacy's open. Headaches, heartaches, nothing in between.\""}
+    ],
+    "topics": [
+      {"id": "dam", "label": "Ask about the dam", "replies": [
+        {"text": "\"My father kept that dam for thirty years. Oskar. The council retired him and stopped listening.\""}
+      ]},
+      {"id": "oskar", "label": "\"Ask about your father, Oskar.\"", "requires": {"facts": ["valve_exists"]}, "replies": [
+        {"text": "\"The valve key? Dad gave the spare to Tomas, to cover his bar tab. He thought it was hilarious.\"", "effects": [{"learn": "key_with_tomas"}]}
+      ]}
+    ]
+  },
+  "mayor": {
+    "greeting": [
+      {"if": {"place": "square"}, "text": "\"Citizens of Marrow! Oh, it's you. Enjoying the speech?\""},
+      {"text": "\"Halden, mayor. Come to the square at eleven, I'm giving a speech!\""}
+    ],
+    "topics": [
+      {"id": "dam", "label": "Ask about the dam", "replies": [
+        {"text": "\"The dam was inspected last spring. Totally safe. Write that down.\"", "effects": [{"learn": "mayor_lie"}]}
+      ]},
+      {"id": "warn", "label": "\"The dam is going to break!\"", "requires": {"facts": ["dam_breaks"]}, "replies": [
+        {"text": "\"Nonsense! Spread panic in my town and I'll have you arrested.\"", "effects": [{"learn": "mayor_panic"}, {"trust": -20}]}
+      ]}
+    ]
+  },
+  "kai": {
+    "greeting": [
+      {"text": "\"Bet you can't catch me! ...oh. You did.\""}
+    ],
+    "topics": [
+      {"id": "news", "label": "\"Seen anything interesting?\"", "replies": [
+        {"text": "\"Tomas is getting the 10:20 bus. He's leaving for good! He gave me free lemonade.\"", "effects": [{"learn": "tomas_leaves"}]}
+      ]},
+      {"id": "secret", "label": "\"Know any secrets?\"", "replies": [
+        {"if": {"place": "mill"}, "text": "\"OK but don't tell. The bar's back door doesn't lock when Tomas is gone. Free lemonade!\"", "effects": [{"learn": "back_door"}]},
+        {"text": "\"Not here, someone could hear! Ask me at the Mill.\""}
+      ]}
+    ]
+  },
+  "mari": {
+    "greeting": [
+      {"text": "\"Mari, Vera's assistant. I keep the hut tidy. Vera keeps the dam... upright.\""}
+    ],
+    "topics": [
+      {"id": "dam", "label": "Ask about the dam", "replies": [
+        {"text": "\"Vera only believes measurements. Check the gauge by the dam late morning, it climbs after eleven.\"", "effects": [{"learn": "vera_numbers"}]}
+      ]},
+      {"id": "valve", "label": "\"Where is the relief valve?\"", "requires": {"facts": ["valve_exists"]}, "replies": [
+        {"text": "\"Right here in the hut. Only Vera can turn it. From the Town Hall it's a long walk, so don't leave it late.\"", "effects": [{"learn": "valve_in_hut"}]}
+      ]}
+    ]
+  }
+}

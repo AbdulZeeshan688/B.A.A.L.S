@@ -1,0 +1,36 @@
+{
+  "facts": [
+    {"id": "dam_breaks", "source": "The flood", "short": "Dam breaks 14:00",
+     "text": "At 14:00 the dam breaks and Marrow floods. Then it is 08:00 again."},
+    {"id": "gauge_rising", "source": "The gauge", "short": "Gauge 8.7m, rising",
+     "text": "Morning: the gauge reads 8.7 m and rising. Red line is 9.0 m."},
+    {"id": "gauge_reading", "source": "The gauge", "short": "Gauge 9.4m > red",
+     "text": "After 11:00 the gauge reads 9.4 m. The red line is 9.0 m."},
+    {"id": "valve_exists", "source": "Vera", "short": "Valve needs a key",
+     "text": "Only the relief valve can save the town. Its key went missing with old Oskar."},
+    {"id": "valve_in_hut", "source": "Mari", "short": "Valve is in hut",
+     "text": "The valve is in the Valve Hut by the dam. Only Vera can turn it, and it's a long walk from the Town Hall."},
+    {"id": "key_with_tomas", "source": "Ilse", "short": "Key: Tomas has it",
+     "text": "Oskar gave the spare valve key to Tomas the barman, to cover his bar tab."},
+    {"id": "tomas_leaves", "source": "Kai", "short": "Tomas: 10:20 bus",
+     "text": "Tomas is leaving Marrow for good on the 10:20 bus."},
+    {"id": "back_door", "source": "Kai", "short": "Bar back door",
+     "text": "The bar's back door doesn't lock once Tomas has gone."},
+    {"id": "vera_numbers", "source": "Mari", "short": "Vera wants numbers",
+     "text": "Vera only believes measurements. The gauge climbs after 11:00."},
+    {"id": "vera_thieves", "source": "Vera", "short": "Vera hates thieves",
+     "text": "Vera won't take help from anyone rumoured to be a thief."},
+    {"id": "mayor_lie", "source": "Mayor Halden", "short": "Mayor: 'safe'",
+     "text": "The Mayor says the dam was inspected last spring and is totally safe."},
+    {"id": "mayor_panic", "source": "Mayor Halden", "short": "No panic allowed",
+     "text": "The Mayor has anyone spreading panic arrested."}
+  ],
+  "questions": [
+    {"text": "What happens this afternoon?", "until": "dam_breaks"},
+    {"text": "Is the dam really safe?", "after": "dam_breaks", "until": "gauge_reading"},
+    {"text": "Who could stop the flood?", "after": "gauge_reading", "until": "valve_exists"},
+    {"text": "Who has the valve key?", "after": "valve_exists", "until": "key_with_tomas"},
+    {"text": "How do I reach Tomas before he leaves?", "after": "key_with_tomas", "until": "never"},
+    {"text": "Is there another way into the bar?", "after": "tomas_leaves", "until": "back_door"}
+  ]
+}

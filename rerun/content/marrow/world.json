@@ -1,0 +1,78 @@
+{
+  "name": "Marrow",
+  "tagline": "Same town. Same afternoon. Text only.",
+  "intro": "The 08:00 bus drops you in Marrow. The air smells of wet concrete.",
+  "start": [34, 15],
+  "items": {"key": "valve key"},
+  "regions": [
+    {"id": "reservoir", "name": "the Reservoir", "rect": [0, 0, 57, 1]},
+    {"id": "dam", "name": "the Dam", "rect": [0, 2, 57, 2]},
+    {"id": "dam_path", "name": "the Dam Path", "rect": [0, 3, 7, 6], "spots": [[2, 4]]},
+    {"id": "valve_hut", "name": "the Valve Hut", "rect": [8, 3, 18, 6], "spots": [[13, 5], [10, 5]]},
+    {"id": "mill", "name": "the Mill", "rect": [31, 3, 39, 6], "spots": [[33, 5], [37, 5], [37, 4]]},
+    {"id": "forest", "name": "the Forest edge", "rect": [40, 3, 57, 6]},
+    {"id": "bar_back", "name": "behind the Bar", "rect": [2, 7, 10, 7], "spots": [[4, 7], [9, 7]]},
+    {"id": "mill_road", "name": "Mill Road", "rect": [0, 7, 57, 7]},
+    {"id": "bar", "name": "the Bar", "rect": [2, 8, 10, 11], "spots": [[5, 10], [8, 9]]},
+    {"id": "cafe", "name": "the Cafe", "rect": [13, 8, 22, 11], "spots": [[15, 10], [20, 9], [19, 10]]},
+    {"id": "pharmacy", "name": "the Pharmacy", "rect": [25, 8, 36, 11], "spots": [[28, 10], [33, 10]]},
+    {"id": "town_hall", "name": "the Town Hall", "rect": [39, 8, 51, 11], "spots": [[42, 10], [48, 10]]},
+    {"id": "square", "name": "the Market Square", "rect": [0, 12, 57, 14], "spots": [[23, 14], [31, 12], [12, 13], [40, 13], [7, 14]]},
+    {"id": "bus_stop", "name": "the Bus Stop", "rect": [30, 15, 45, 17], "spots": [[36, 15], [34, 15]]},
+    {"id": "south_road", "name": "South Road", "rect": [0, 15, 57, 15]},
+    {"id": "inn", "name": "the Inn", "rect": [2, 16, 13, 17], "spots": [[9, 17], [4, 17]]}
+  ],
+  "doors": [
+    {
+      "id": "bar_back", "pos": [6, 8], "building": "bar",
+      "open_if": {"facts": ["back_door"], "npc_gone": "tomas"},
+      "locked_text": "The bar's back door is locked.",
+      "on_enter": [{"visible": "thief"}]
+    },
+    {
+      "id": "bar_front", "pos": [6, 11], "building": "bar",
+      "locked_if": {"after": "09:00"},
+      "locked_text": "The bar is locked. A sign says: CLOSED FOREVER."
+    }
+  ],
+  "objects": [
+    {
+      "id": "gauge", "pos": [1, 3], "name": "water gauge",
+      "use": [
+        {"if": {"after": "11:00"}, "text": "The gauge: water at 9.4 m. The red line is 9.0 m.", "effects": [{"learn": "gauge_reading"}]},
+        {"text": "The gauge: water at 8.7 m and creeping up. The red line is 9.0 m.", "effects": [{"learn": "gauge_rising"}]}
+      ]
+    },
+    {
+      "id": "key_shelf", "pos": [3, 9], "name": "bar shelf",
+      "use": [
+        {"if": {"flags": ["key_found"]}, "text": "Just dusty bottles now."},
+        {"if": {"npc_at": ["tomas", "bar"]}, "text": "Tomas eyes you. \"Bottles only. Hands off my shelf.\""},
+        {"if": {"npc_gone": "tomas"}, "text": "Behind the bottles: a brass key tagged OSKAR - VALVE. You pocket it.", "effects": [{"give_item": "key"}, {"set_flag": "key_found"}, {"visible": "thief"}]},
+        {"text": "Dusty bottles. Something glints behind them, but Tomas is still in town."}
+      ]
+    }
+  ],
+  "announcements": [
+    {"npc": "mayor", "after": "11:00", "place": "square", "radius": 12,
+     "text": "Mayor Halden booms: \"The dam was inspected last spring. Totally safe!\"",
+     "effects": [{"learn": "mayor_lie"}]}
+  ],
+  "omens": [
+    {"time": "12:00", "text": "The church bell rings twelve. The square smells of river mud."},
+    {"time": "13:00", "text": "A low groan rolls down from the dam."},
+    {"time": "13:40", "text": "The ground shivers. Dogs start barking all over town."}
+  ],
+  "flood": {"learn": "dam_breaks"},
+  "win": {"npc": "vera", "place": "valve_hut", "flag": "vera_has_key", "before": "13:50"},
+  "rules": {
+    "view_radius": 9,
+    "witness_radius": 4,
+    "shout_radius": 8,
+    "spread_chance": 0.5,
+    "witness_trust_penalty": 30,
+    "annoy_after_talks": 3,
+    "annoy_trust_penalty": 10,
+    "arrest": {"npc": "mayor", "rumour": "panic"}
+  }
+}

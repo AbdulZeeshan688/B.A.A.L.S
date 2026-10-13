@@ -1,0 +1,148 @@
+[
+  {
+    "id": "vera",
+    "letter": "V",
+    "name": "Vera",
+    "role": "dam engineer",
+    "color": "magenta",
+    "schedule": [
+      {
+        "time": "08:00",
+        "place": "inn",
+        "slot": 0
+      },
+      {
+        "time": "09:00",
+        "place": "cafe",
+        "slot": 0
+      },
+      {
+        "time": "11:20",
+        "place": "town_hall",
+        "slot": 0
+      },
+      {
+        "time": "13:10",
+        "place": "cafe",
+        "slot": 0
+      }
+    ]
+  },
+  {
+    "id": "tomas",
+    "letter": "T",
+    "name": "Tomas",
+    "role": "barman",
+    "color": "red",
+    "schedule": [
+      {
+        "time": "08:00",
+        "place": "bar",
+        "slot": 0
+      },
+      {
+        "time": "09:00",
+        "place": "bus_stop",
+        "slot": 0
+      },
+      {
+        "time": "10:20",
+        "place": "gone",
+        "text": "The 10:20 bus pulls away. Tomas is on it."
+      }
+    ]
+  },
+  {
+    "id": "ilse",
+    "letter": "I",
+    "name": "Ilse",
+    "role": "pharmacist",
+    "color": "green",
+    "schedule": [
+      {
+        "time": "08:00",
+        "place": "pharmacy",
+        "slot": 0
+      },
+      {
+        "time": "12:30",
+        "place": "square",
+        "slot": 1
+      },
+      {
+        "time": "13:00",
+        "place": "pharmacy",
+        "slot": 0
+      }
+    ]
+  },
+  {
+    "id": "mayor",
+    "letter": "M",
+    "name": "Mayor Halden",
+    "role": "mayor",
+    "color": "yellow",
+    "schedule": [
+      {
+        "time": "08:00",
+        "place": "town_hall",
+        "slot": 1
+      },
+      {
+        "time": "10:30",
+        "place": "square",
+        "slot": 0
+      },
+      {
+        "time": "12:00",
+        "place": "town_hall",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "kai",
+    "letter": "K",
+    "name": "Kai",
+    "role": "kid",
+    "color": "cyan",
+    "speed": 3,
+    "start": {
+      "place": "square",
+      "slot": 2
+    },
+    "wander": {
+      "start": "08:00",
+      "every": 30,
+      "places": [
+        "square",
+        "mill",
+        "bar_back"
+      ]
+    }
+  },
+  {
+    "id": "mari",
+    "letter": "O",
+    "name": "Mari",
+    "role": "Vera's assistant",
+    "color": "blue",
+    "schedule": [
+      {
+        "time": "08:00",
+        "place": "valve_hut",
+        "slot": 1
+      },
+      {
+        "time": "10:30",
+        "place": "cafe",
+        "slot": 1
+      },
+      {
+        "time": "12:00",
+        "place": "valve_hut",
+        "slot": 1
+      }
+    ]
+  }
+]
