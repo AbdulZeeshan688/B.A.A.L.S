@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from . import rumours
 from .clock import DAY_TICKS, hhmm_to_tick, tick_to_hhmm
 from .conditions import check
-from .content import Content, Door
+from .content import Content, Door, Hint
 from .dialogue import Topic, available_topics, pick
 from .knowledge import Notebook
 from .loop import is_win, new_state, reset_for_next_loop
@@ -133,10 +133,27 @@ class Game:
         """True if the player already chose this topic this loop."""
         return f"{npc_id}.{topic_id}" in self.state.used_topics
 
+    def current_goal(self) -> Hint | None:
+        """The 'what to try next' hint: the first one whose condition matches right now."""
+        return next((h for h in self.content.hints if check(h.cond, self)), None)
+
     def current_hint(self) -> str | None:
-        """The 'what to try next' line: first hint whose condition matches right now."""
-        branch = pick(self.content.hints, self, None)
-        return branch.text if branch else None
+        """Text of the current goal hint."""
+        goal = self.current_goal()
+        return goal.text if goal else None
+
+    def goal_position(self) -> Pos | None:
+        """Map tile the current goal points at (None if nowhere to go)."""
+        goal = self.current_goal()
+        if goal is None or goal.target is None:
+            return None
+        kind, _, ident = goal.target.partition(":")
+        if kind == "npc":
+            npc = self.state.npcs.get(ident)
+            return npc.pos if npc and npc.present else None
+        if kind == "object":
+            return next((o.pos for o in self.content.objects if o.id == ident), None)
+        return self.world.region(ident).spot(0)
 
     def drain_events(self) -> list[Event]:
         """Return and clear pending events for the UI."""
@@ -274,6 +291,10 @@ class Game:
     def _learn(self, fact_id: str) -> None:
         if self.state.notebook.learn(fact_id, self.state.loop):
             self._say(f"Notebook +  {self.content.facts[fact_id].short}", "fact")
+            unlocked = [self.content.npc(npc_id).name for npc_id, dlg in self.content.dialogue.items()
+                        if any(fact_id in (t.requires or {}).get("facts", ()) for t in dlg.topics)]
+            if unlocked:
+                self._say(f"New secret! You can now say something new to {' and '.join(unlocked)}.", "fact")
 
     def _apply(self, effects: tuple[dict, ...], speaker: str | None) -> None:
         s = self.state

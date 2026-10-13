@@ -132,9 +132,16 @@ class App:
         from .ui.screens.menus import ConfirmScreen
 
         if self.save_data.run is not None:
-            self.push(ConfirmScreen(self, "Start over? Your current notebook will be lost.", self.new_game))
+            self.push(ConfirmScreen(self, "Start over? Your current notebook will be lost.", self.new_game_with_intro))
         else:
-            self.new_game()
+            self.new_game_with_intro()
+
+    def new_game_with_intro(self) -> None:
+        """New game, with the story intro on top."""
+        from .ui.screens.intro import IntroScreen
+
+        self.new_game()
+        self.push(IntroScreen(self))
 
     def continue_game(self) -> None:
         """Resume a saved run at 08:00 of the saved loop."""

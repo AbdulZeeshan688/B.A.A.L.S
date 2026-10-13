@@ -76,6 +76,15 @@ class Omen:
 
 
 @dataclass(frozen=True)
+class Hint:
+    """A 'what to try next' line, shown while `cond` holds. `target` is e.g. 'npc:vera'."""
+
+    cond: dict | None
+    text: str
+    target: str | None = None
+
+
+@dataclass(frozen=True)
 class WinRule:
     """The flood is stopped when `npc` stands in `place` with `flag` set before `before_tick`."""
 
@@ -122,7 +131,7 @@ class Content:
     flood_learn: str | None
     rules: Rules = field(default_factory=Rules)
     items: dict[str, str] = field(default_factory=dict)
-    hints: tuple[Branch, ...] = ()
+    hints: tuple[Hint, ...] = ()
 
     def npc(self, npc_id: str) -> NpcDef:
         """NPC definition by id."""
@@ -273,6 +282,21 @@ def _load_facts(raw: Any, problems: list[str]) -> tuple[dict[str, Fact], tuple[Q
     return facts, tuple(questions)
 
 
+def _load_hints(raw: Any, world: World, objects: list[GameObject], npcs: list[NpcDef],
+                problems: list[str]) -> tuple[Hint, ...]:
+    """Parse hints.json; every target must name a real npc, object or place."""
+    valid = ({f"npc:{n.id}" for n in npcs} | {f"object:{o.id}" for o in objects}
+             | {f"place:{r.id}" for r in world.regions})
+    hints = []
+    for branch, item in zip(parse_branches(raw, "hints", problems), raw if isinstance(raw, list) else [],
+                            strict=False):
+        target = item.get("target")
+        if target is not None and target not in valid:
+            problems.append(f"hints: unknown target {target!r} (use npc:, object: or place:)")
+        hints.append(Hint(branch.cond, branch.text, target))
+    return tuple(hints)
+
+
 def _check_references(content_bits: dict, facts: dict[str, Fact], npc_ids: set[str], world: World) -> list[str]:
     """Every fact / npc / place mentioned in conditions and effects must exist."""
     problems = []
@@ -309,7 +333,8 @@ def _check_references(content_bits: dict, facts: dict[str, Fact], npc_ids: set[s
         problems.append(f"npc {npc_id!r} has no dialogue")
     for obj in content_bits["objects"]:
         check_branches(obj.use, f"objects.{obj.id}")
-    check_branches(content_bits.get("hints", ()), "hints")
+    for hint in content_bits.get("hints", ()):
+        check_cond(hint.cond, "hints")
     for door in content_bits["doors"]:
         check_cond(door.open_if, f"doors.{door.id}")
         check_cond(door.locked_if, f"doors.{door.id}")
@@ -345,9 +370,9 @@ def load_content(pack: str = DEFAULT_PACK, packs_dir: Path | None = None) -> Con
     dialogue = {npc_id: parse_dialogue(d, npc_id, problems) for npc_id, d in dialogue_raw.items()}
     _fail_if("dialogue.json", problems)
 
-    hints: tuple[Branch, ...] = ()
+    hints: tuple[Hint, ...] = ()
     if (root / "hints.json").exists():
-        hints = parse_branches(_read_json(root / "hints.json"), "hints", problems)
+        hints = _load_hints(_read_json(root / "hints.json"), world, objects, npcs, problems)
         _fail_if("hints.json", problems)
 
     npc_ids = {n.id for n in npcs}

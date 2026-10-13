@@ -60,7 +60,7 @@ class LoopEndScreen(Screen):
         bx, bw = 5, 52  # stays left of the notebook panel
         c.box(bx, 4, bw, h, "LOOP OVER", style="bold", title_style="warn")
         c.center(6, HEADLINES[self.outcome].format(time=self.time), "warn", x=bx, w=bw)
-        c.center(7, f"Loop {self.loop} ended.", "", x=bx, w=bw)
+        c.center(7, f"Loop {self.loop} ended. Wake up - you remember it all!", "", x=bx, w=bw)
         c.center(8, f"New in your notebook: {len(self.new_facts)}", "fact" if self.new_facts else "dim", x=bx, w=bw)
         for i, fact_id in enumerate(shown):
             c.put(bx + 6, 10 + i, f"+ {facts[fact_id].short}", "note_new")

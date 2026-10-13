@@ -36,10 +36,25 @@ def test_every_hint_fits_the_goal_line(content):
 
 
 def test_hints_can_be_switched_off(isolated_home):
-    from test_app import make_app, press, text
+    from test_app import make_app, new_game, text
 
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     assert "GOAL" in text(app)
     app.settings.hints = False
     assert "GOAL" not in text(app)
+
+
+def test_goal_points_at_the_right_thing(game):
+    assert game.goal_position() == game.state.npcs["vera"].pos
+    game.state.notebook.learn("dam_breaks", 1)
+    gauge = next(o.pos for o in game.content.objects if o.id == "gauge")
+    assert game.goal_position() == gauge
+
+
+def test_learning_a_key_fact_announces_the_unlock(game):
+    game.state.npcs["ilse"].pos = game.world.region("pharmacy").spot(0)
+    game.state.notebook.learn("valve_exists", 1)
+    game.choose("ilse", "oskar")
+    texts = [e.text for e in game.drain_events()]
+    assert any("New secret" in t and "Tomas" in t for t in texts)

@@ -24,7 +24,7 @@ def test_record_and_replay_together_rejected(tmp_path):
 
 def test_plain_mode_is_playable_without_a_tty(isolated_home):
     # No terminal: the game falls back to plain mode. New game, walk, open notebook, quit.
-    script = "1\nwww\nn\nesc\nq\ny\n5\n"
+    script = "1\nesc\nwww\nn\nesc\nq\ny\n5\n"
     result = run("--new", "--seed", "3", stdin=script)
     assert result.returncode == 0, result.stderr
     assert "switching to --plain" in result.stdout

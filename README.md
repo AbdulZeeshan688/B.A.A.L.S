@@ -80,6 +80,14 @@ Every screen shows its own keys on the bottom line.
 
 ## How it plays
 
+**New player? Just follow the arrow.** A short story intro explains the idea. During play:
+- the yellow **GOAL** line always says what to try next,
+- a blinking **▼** marks who or what to visit, and the map border shows the way (`Go: V Vera, 12 steps west`),
+- a **"New secret!"** message tells you when something you learned lets you say something new to someone.
+
+Experienced players can switch the hints off in Settings.
+
+
 - **6 townspeople, 6 schedules.** Vera the dam engineer, Tomas the barman (who leaves on the 10:20
   bus), Ilse the pharmacist, the Mayor, Kai the kid and Mari the assistant. They walk around town
   using pathfinding, on the same timetable every loop.
@@ -147,7 +155,7 @@ rerun/
 pip install pytest && python -m pytest
 ```
 
-There are 116 tests:
+There are 126 tests:
 - the clock and NPC schedules (Tomas is at the bus stop at 10:18 and gone at 10:22)
 - dialogue gating, loop resets, rumours and arrests
 - save recovery from corrupt, empty or old-version files

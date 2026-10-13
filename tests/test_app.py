@@ -27,6 +27,15 @@ def press(app, *keys):
         app.render()
 
 
+def new_game(app):
+    """Title -> New game -> skip the story intro."""
+    press(app, "1")
+    from rerun.ui.screens.intro import IntroScreen
+
+    assert isinstance(app.stack[-1], IntroScreen)
+    press(app, KeyEvent(K.ESC))
+
+
 def text(app) -> str:
     return "\n".join(app.render().plain_lines())
 
@@ -34,7 +43,7 @@ def text(app) -> str:
 def test_title_new_game_and_quit_saves(isolated_home):
     app = make_app(isolated_home)
     assert isinstance(app.stack[-1], TitleScreen)
-    press(app, "1")  # New game (no save yet)
+    new_game(app)
     assert isinstance(app.stack[-1], GameScreen)
     press(app, KeyEvent(K.LEFT), "q", "y")
     assert isinstance(app.stack[-1], TitleScreen)
@@ -44,7 +53,7 @@ def test_title_new_game_and_quit_saves(isolated_home):
 
 def test_game_screen_shows_hud(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     screen = text(app)
     for expected in ("RERUN", "loop 1", "08:00", "FLOOD in 6h 00m", "NOTEBOOK", "You: the Bus Stop", "[E] talk/use"):
         assert expected in screen
@@ -53,7 +62,8 @@ def test_game_screen_shows_hud(isolated_home):
 
 def test_skip_prompt_handles_bad_input_then_works(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1", "t", "a", "b", "c", KeyEvent(K.ENTER))
+    new_game(app)
+    press(app, "t", "a", "b", "c", KeyEvent(K.ENTER))
     assert isinstance(app.stack[-1], PromptScreen) and "not a time" in text(app)
     press(app, KeyEvent(K.ESC), "t", "0", "9", ":", "0", "0", KeyEvent(K.ENTER))
     assert app.game.state.tick > 0
@@ -61,7 +71,7 @@ def test_skip_prompt_handles_bad_input_then_works(isolated_home):
 
 def test_flood_screen_then_next_loop(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     for _ in range(30):
         if isinstance(app.stack[-1], LoopEndScreen):
             break
@@ -79,7 +89,7 @@ def test_flood_screen_then_next_loop(isolated_home):
 
 def test_continue_restores_notebook(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     app.game.state.notebook.learn("gauge_reading", 1)
     press(app, "q", "y")
     app2 = make_app(isolated_home)
@@ -104,13 +114,13 @@ def test_corrupt_save_shows_notice_not_crash(isolated_home):
     isolated_home.mkdir(parents=True)
     (isolated_home / "save.json").write_text("garbage")
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     assert "Starting fresh" in text(app)
 
 
 def test_talk_overlay_and_from_notes_marker(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     game = app.game
     game.state.notebook.learn("key_with_tomas", 1)
     game.state.player.pos = (5, 9)  # next to Tomas in the bar at 08:00
@@ -152,10 +162,32 @@ def test_mono_mode_has_no_colour_codes(isolated_home):
 
 def test_daily_run_does_not_touch_saved_run(isolated_home):
     app = make_app(isolated_home)
-    press(app, "1")
+    new_game(app)
     app.game.state.notebook.learn("gauge_reading", 1)
     press(app, "q", "y")
     daily = make_app(isolated_home, daily=True)
     assert isinstance(daily.stack[-1], GameScreen) and not daily.game.knows("gauge_reading")
     press(daily, KeyEvent(K.LEFT), "q", "y")
     assert "gauge_reading" in SaveStore(isolated_home).load()[0].run.notebook
+
+
+def test_intro_pages_then_game(isolated_home):
+    app = make_app(isolated_home)
+    press(app, "1")
+    assert "THIS IS MARROW" in text(app)
+    press(app, KeyEvent(K.ENTER))
+    assert "THE DAM BREAKS" in text(app)
+    press(app, KeyEvent(K.LEFT))
+    assert "THIS IS MARROW" in text(app)
+    press(app, KeyEvent(K.ENTER), KeyEvent(K.ENTER), KeyEvent(K.ENTER))
+    assert "YOUR MISSION" in text(app)
+    press(app, KeyEvent(K.ENTER))
+    assert isinstance(app.stack[-1], GameScreen)
+
+
+def test_goal_marker_and_directions(isolated_home):
+    app = make_app(isolated_home)
+    new_game(app)
+    screen = text(app)
+    assert "Go: V Vera" in screen and "steps west" in screen
+    assert "▼" in screen

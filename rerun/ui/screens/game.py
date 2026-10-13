@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import time
+
 from ...core.clock import DAY_TICKS, time_left_text
 from ...core.engine import Game
 from ...core.state import Event
@@ -34,6 +36,41 @@ def tile_char(game: Game, pos: Pos) -> tuple[str, str]:
             return ("D", "door") if game.door_open(door) else ("x", "locked")
         return ch, "door" if ch == "D" else "locked"
     return ch, KIND_STYLE.get(kind, "")
+
+
+def draw_goal_marker(c: Canvas, game: Game, blink_on: bool) -> None:
+    """Highlight the tile the GOAL points at, with a ▼ above it (blinks unless reduced motion)."""
+    goal = game.goal_position()
+    if goal is None or not blink_on:
+        return
+    x, y = MAP_X + goal[0], MAP_Y + goal[1]
+    c.put(x, y, c.get(x, y), "select")
+    above = (goal[0], goal[1] - 1)
+    if above[1] >= 0 and above != game.state.player.pos:
+        c.put(x, y - 1, "▼", "warn")
+
+
+def goal_directions(game: Game) -> str:
+    """'Go: V Vera, 12 steps north-west' for the map footer."""
+    goal, pos = game.current_goal(), game.goal_position()
+    if goal is None or pos is None:
+        return ""
+    kind, _, ident = goal.target.partition(":")
+    if kind == "npc":
+        npc = game.content.npc(ident)
+        name = f"{npc.letter} {npc.name}"
+    elif kind == "object":
+        name = next(o.name for o in game.content.objects if o.id == ident)
+    else:
+        name = game.world.region(ident).name
+    me = game.state.player.pos
+    dx, dy = pos[0] - me[0], pos[1] - me[1]
+    steps = max(abs(dx), abs(dy))
+    if steps <= 1:
+        return f"Go: {name} is right here, press E!"
+    way = "-".join(w for w, on in (("north", dy < 0), ("south", dy > 0)) if on and abs(dy) * 2 >= abs(dx))
+    way2 = "-".join(w for w, on in (("west", dx < 0), ("east", dx > 0)) if on and abs(dx) * 2 >= abs(dy))
+    return f"Go: {name}, {steps} steps {'-'.join(p for p in (way, way2) if p)}"
 
 
 def draw_map(c: Canvas, game: Game, ghost: bool, flood_rows: int = 0, debug: bool = False) -> None:
@@ -139,12 +176,17 @@ def draw_game(c: Canvas, app) -> None:
     game: Game = app.game
     debug = app.options.debug
     draw_top_bar(c, game, debug)
-    nearby = [f"{n.letter} {n.name}" for n in game.visible_npcs()]
-    c.box(0, 1, 60, 20, f"You: {game.region_name()}",
-          footer=("Nearby: " + ", ".join(nearby)) if nearby else "Nobody in sight")
+    hints = app.settings.hints
+    footer = goal_directions(game) if hints else ""
+    if not footer:
+        nearby = [f"{n.letter} {n.name}" for n in game.visible_npcs()]
+        footer = ("Nearby: " + ", ".join(nearby)) if nearby else "Nobody in sight"
+    c.box(0, 1, 60, 20, f"You: {game.region_name()}", footer=footer)
     draw_map(c, game, app.settings.ghost, debug=debug)
+    if hints:
+        draw_goal_marker(c, game, app.reduced_motion or int(time.monotonic() * 2) % 2 == 0)
     draw_panel(c, game, debug)
-    draw_messages(c, app.log, game.current_hint() if app.settings.hints else None)
+    draw_messages(c, app.log, game.current_hint() if hints else None)
     key_bar(c, 23, GAME_KEYS)
 
 
