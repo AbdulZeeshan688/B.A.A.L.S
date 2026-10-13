@@ -1,7 +1,8 @@
+from conftest import advance_to
+
 from rerun.core import rumours
 from rerun.core.rng import GameRng
 from rerun.core.state import Outcome
-from conftest import advance_to
 
 
 def break_in(game, witness_pos):

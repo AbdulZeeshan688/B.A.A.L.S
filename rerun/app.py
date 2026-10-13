@@ -17,7 +17,7 @@ from .core.engine import Game, Target
 from .core.knowledge import Notebook
 from .core.state import Event, Outcome, Stats
 from .extras.replay import Recorder
-from .persistence.save import RunData, SaveData, SaveStore
+from .persistence.save import RunData, SaveStore
 from .ui import keys as K
 from .ui.keys import KeyEvent
 from .ui.renderer import Canvas
@@ -119,8 +119,11 @@ class App:
         if seed is None:
             seed = self.options.seed if self.options.seed is not None else random.SystemRandom().randrange(10**6)
         self.game = Game(self.content, seed)
-        self.log = [e for e in self.log if e.kind == "warn"]
+        warnings = [e for e in self.log if e.kind == "warn"]
+        self.log = []
         self.collect_events()
+        self.notify("Tip: stand next to someone and press E to talk. Press ? for help.", "important")
+        self.log.extend(warnings)  # e.g. "save file was corrupt" stays visible
         self.reset_to(GameScreen(self))
         self.persist()
 

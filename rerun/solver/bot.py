@@ -20,7 +20,6 @@ from ..core import rumours
 from ..core.clock import DAY_TICKS, hhmm_to_tick, tick_to_hhmm
 from ..core.content import Content, load_content
 from ..core.engine import Game
-from ..core.state import Outcome
 from ..core.world import NEIGHBOURS, Pos, chebyshev
 from ..persistence.save import SaveStore
 from ..ui import keys as K

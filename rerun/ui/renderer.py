@@ -90,7 +90,7 @@ class Renderer:
         """One canvas row as an ANSI string."""
         out: list[str] = []
         current = None
-        for ch, style in zip(canvas.chars[y], canvas.styles[y]):
+        for ch, style in zip(canvas.chars[y], canvas.styles[y], strict=True):
             if style != current:
                 out.append(RESET + self.theme.sgr(style) if self.theme.ansi else "")
                 current = style

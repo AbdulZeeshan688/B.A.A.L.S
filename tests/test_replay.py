@@ -1,6 +1,7 @@
-from rerun.extras.replay import ReplayError, load_replay
-from rerun.solver.bot import Bot, demo_route, play
 import pytest
+
+from rerun.extras.replay import ReplayError, load_replay
+from rerun.solver.bot import Bot, play
 
 
 def test_recorded_demo_replays_to_same_result(tmp_path):

@@ -75,7 +75,8 @@ def main(argv: list[str] | None = None) -> int:
         args.seed = daily_seed()
     options = Options(new=args.new, seed=args.seed, mono=args.mono, ascii=args.ascii, plain=args.plain,
                       reduced_motion=args.reduced_motion, record=args.record, replay=args.replay,
-                      debug=args.debug, pack=args.pack, daily=args.daily, replay_delay=0.2 / max(0.1, args.replay_speed))
+                      debug=args.debug, pack=args.pack, daily=args.daily,
+                      replay_delay=0.2 / max(0.1, args.replay_speed))
     replay_keys = []
     if args.replay:
         try:

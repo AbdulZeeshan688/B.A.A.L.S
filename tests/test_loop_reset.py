@@ -1,5 +1,6 @@
-from rerun.core.state import Outcome
 from conftest import advance_to
+
+from rerun.core.state import Outcome
 
 
 def test_flood_at_1400_then_reset_keeps_only_notebook(game):

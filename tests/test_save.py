@@ -5,8 +5,8 @@ from rerun.persistence.save import SAVE_VERSION, RunData, SaveData, SaveStore, S
 
 def test_round_trip(tmp_path):
     store = SaveStore(tmp_path)
-    data = SaveData(Settings(color=False, ghost=False), best_loops=3,
-                    run=RunData(42, 4, {"gauge_reading": {"loop": 2, "seen": True}}, {"outcomes": ["~", "^"]}, [[1, 2]]))
+    run = RunData(42, 4, {"gauge_reading": {"loop": 2, "seen": True}}, {"outcomes": ["~", "^"]}, [[1, 2]])
+    data = SaveData(Settings(color=False, ghost=False), best_loops=3, run=run)
     assert store.save(data) is None
     loaded, notice = store.load()
     assert notice is None

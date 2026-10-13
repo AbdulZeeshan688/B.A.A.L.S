@@ -55,7 +55,8 @@ class NotebookScreen(Screen):
         for i, (text, style) in enumerate(self.lines[self.scroll: self.scroll + VIEW_ROWS]):
             c.put(3, 2 + i, text[:75], style)
         if len(self.lines) > VIEW_ROWS:
-            c.put(70, 22, f" {self.scroll + 1}-{min(len(self.lines), self.scroll + VIEW_ROWS)}/{len(self.lines)} ", "dim")
+            last = min(len(self.lines), self.scroll + VIEW_ROWS)
+            c.put(70, 22, f" {self.scroll + 1}-{last}/{len(self.lines)} ", "dim")
         key_bar(c, 23, "[W/S or arrows] scroll  [N/Esc] close")
 
     def handle(self, key: KeyEvent) -> None:

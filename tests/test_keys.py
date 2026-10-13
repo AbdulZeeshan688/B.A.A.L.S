@@ -1,7 +1,20 @@
 import pytest
 
-from rerun.ui.keys import (BACKSPACE, CHAR, CTRL_C, DOWN, ENTER, ESC, LEFT, RIGHT, UP, KeyEvent, parse_line,
-                           parse_unix, parse_windows)
+from rerun.ui.keys import (
+    BACKSPACE,
+    CHAR,
+    CTRL_C,
+    DOWN,
+    ENTER,
+    ESC,
+    LEFT,
+    RIGHT,
+    UP,
+    KeyEvent,
+    parse_line,
+    parse_unix,
+    parse_windows,
+)
 
 
 @pytest.mark.parametrize("seq,name", [("\x1b[A", UP), ("\x1b[B", DOWN), ("\x1b[C", RIGHT), ("\x1b[D", LEFT),
