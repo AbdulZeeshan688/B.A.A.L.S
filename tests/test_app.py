@@ -191,3 +191,13 @@ def test_goal_marker_and_directions(isolated_home):
     screen = text(app)
     assert "Go: V Vera, 25 steps W" in screen
     assert "▼" in screen
+
+
+def test_interrupted_skip_prefills_target(isolated_home):
+    app = make_app(isolated_home)
+    new_game(app)
+    app.game.skip_paused = "11:00"
+    press(app, "t")
+    assert isinstance(app.stack[-1], PromptScreen) and app.stack[-1].buffer == "11:00"
+    press(app, KeyEvent(K.ENTER))
+    assert app.game.clock() > "08:00"

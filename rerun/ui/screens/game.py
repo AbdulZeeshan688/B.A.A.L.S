@@ -229,8 +229,8 @@ class GameScreen(Screen):
             game.wait()
             app.after_action()
         elif key.is_char("t"):
-            app.push(PromptScreen(app, f"Skip to what time? Now {game.clock()}. Stops early if something happens.",
-                                  app.skip_to, placeholder="e.g. 11:00"))
+            app.push(PromptScreen(app, f"Skip to what time? Now {game.clock()}. Stops early if someone walks up.",
+                                  app.skip_to, placeholder="e.g. 11:00", initial=game.skip_paused or ""))
         elif key.is_char("n"):
             app.push(NotebookScreen(app))
         elif key.is_char("g"):

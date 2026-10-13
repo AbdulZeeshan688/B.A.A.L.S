@@ -22,6 +22,7 @@ from .state import Event, GameState, Outcome, Stats
 from .world import Pos, chebyshev
 
 PAUSE_TICKS = 5  # people wait up to 10 minutes beside you, then carry on
+SKIP_STOP_RADIUS = 2  # a skip stops when someone walks this close
 
 
 @dataclass(frozen=True)
@@ -42,6 +43,7 @@ class Game:
         self.world = content.world
         self.state: GameState = new_state(content, seed, notebook, loop, stats)
         self._npc_passable = npc_passable(self.world)
+        self.skip_paused: str | None = None  # target time of an interrupted skip
         self._begin_loop()
 
     # ----------------------------------------------------------- conditions
@@ -253,19 +255,32 @@ class Game:
             return str(exc)
         if target <= self.state.tick:
             return f"It's already {self.clock()}. Time only moves forward (until 14:00)."
-        seen = {n.id for n in self.visible_npcs()}
+        close = set(self._npcs_close())
+        reason = ""
         while self.state.tick < target and not self.state.outcome:
             before = len(self.state.events)
             self._advance()
-            if any(e.important for e in self.state.events[before:]):
+            news = [e for e in self.state.events[before:] if e.important]
+            if news:
+                reason = news[-1].text
                 break
-            now_seen = {n.id for n in self.visible_npcs()}
-            arrived = [self.content.npc(i).name for i in sorted(now_seen - seen)]
+            now_close = set(self._npcs_close())
+            arrived = [self.content.npc(i).name for i in sorted(now_close - close)]
             if arrived:
-                self._say(f"{', '.join(arrived)} comes into view.")
+                reason = f"{' and '.join(arrived)} walked up to you."
                 break
-            seen = now_seen
+            close = now_close
+        if reason and self.state.tick < target and not self.state.outcome:
+            self.skip_paused = text
+            self._say(f"Skip paused at {self.clock()}: {reason} Press T again to keep going.", "warn")
+        else:
+            self.skip_paused = None
         return None
+
+    def _npcs_close(self) -> list[str]:
+        """NPCs within 2 tiles that the player can see (these interrupt a skip)."""
+        me = self.state.player.pos
+        return [n.id for n in self.visible_npcs() if chebyshev(self.state.npcs[n.id].pos, me) <= SKIP_STOP_RADIUS]
 
     def restart_loop(self) -> None:
         """Give up on this loop early."""
@@ -381,7 +396,8 @@ class Game:
             if target is None:
                 st.present = False
                 entry = scheduled_entry(npc, self.state.tick)
-                self._say(entry.text if entry and entry.text else f"{npc.name} has left town.", "important")
+                self._say(entry.text if entry and entry.text else f"{npc.name} has left town.",
+                          "important" if self.in_view(st.pos) else "info")
                 continue
             st.target = target
             if not st.goto and chebyshev(st.pos, self.state.player.pos) <= 1 and st.paused < PAUSE_TICKS:

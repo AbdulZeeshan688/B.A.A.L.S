@@ -178,12 +178,13 @@ class PromptScreen(Screen):
     text_mode = True
 
     def __init__(self, app, question: str, on_submit: Callable[[str], str | None],
-                 placeholder: str = "", error: str = "") -> None:
+                 placeholder: str = "", error: str = "", initial: str = "") -> None:
         super().__init__(app)
         self.question = question
         self.on_submit = on_submit
         self.placeholder = placeholder
-        self.buffer = ""
+        self.buffer = initial
+        self.prefilled = bool(initial)  # first key typed replaces a prefilled value
         self.error = error
 
     def render(self, c: Canvas) -> None:
@@ -204,12 +205,14 @@ class PromptScreen(Screen):
         if key.name == K.ESC:
             self.app.pop()
         elif key.name == K.BACKSPACE:
-            self.buffer = self.buffer[:-1]
+            self.buffer = "" if self.prefilled else self.buffer[:-1]
+            self.prefilled = False
         elif key.name == K.ENTER:
             self.app.pop()
             error = self.on_submit(self.buffer)
             if error:
                 self.app.push(PromptScreen(self.app, self.question, self.on_submit, self.placeholder, error))
-        elif key.name == K.CHAR and len(self.buffer) < 8:
-            self.buffer += key.char
+        elif key.name == K.CHAR and (self.prefilled or len(self.buffer) < 8):
+            self.buffer = key.char if self.prefilled else self.buffer + key.char
+            self.prefilled = False
             self.error = ""

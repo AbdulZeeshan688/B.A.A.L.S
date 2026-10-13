@@ -50,35 +50,7 @@
 {"k": "CHAR", "c": "0"}
 {"k": "CHAR", "c": "0"}
 {"k": "ENTER"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
 {"k": "CHAR", "c": "e"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "4"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "4"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
 {"k": "CHAR", "c": "t"}
 {"k": "CHAR", "c": "1"}
 {"k": "CHAR", "c": "4"}
@@ -141,20 +113,6 @@
 {"k": "CHAR", "c": "e"}
 {"k": "CHAR", "c": "2"}
 {"k": "ESC"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "4"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
-{"k": "CHAR", "c": "t"}
-{"k": "CHAR", "c": "1"}
-{"k": "CHAR", "c": "4"}
-{"k": "CHAR", "c": ":"}
-{"k": "CHAR", "c": "0"}
-{"k": "CHAR", "c": "0"}
-{"k": "ENTER"}
 {"k": "CHAR", "c": "t"}
 {"k": "CHAR", "c": "1"}
 {"k": "CHAR", "c": "4"}

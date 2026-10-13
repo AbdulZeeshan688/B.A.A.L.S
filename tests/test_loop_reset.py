@@ -54,3 +54,20 @@ def test_actions_after_loop_end_do_nothing(game):
     game.wait()
     game.shout()
     assert game.state.tick == tick
+
+
+def test_far_away_bus_does_not_interrupt_a_skip(game):
+    game.state.player.pos = (1, 4)  # beside the gauge, far from the bus stop
+    game.state.npcs["kai"].wander_picks = {k: (40, 13) for k in range(20)}  # keep Kai away
+    game.skip_to("09:30")
+    game.skip_to("11:00")
+    assert game.clock() == "11:00"
+
+
+def test_interrupted_skip_explains_itself_and_remembers_target(game):
+    game.state.player.pos = (35, 15)  # at the bus stop: Tomas walks right up
+    game.skip_to("11:00")
+    assert game.clock() < "11:00"
+    texts = [e.text for e in game.drain_events()]
+    assert any("Skip paused" in t and "Press T again" in t for t in texts)
+    assert game.skip_paused == "11:00"
