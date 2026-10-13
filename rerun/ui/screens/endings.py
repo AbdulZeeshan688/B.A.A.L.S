@@ -57,13 +57,14 @@ class LoopEndScreen(Screen):
         facts = self.app.game.content.facts
         shown = self.new_facts[:6]
         h = 9 + len(shown)
-        c.box(12, 4, 56, h, "LOOP OVER", style="bold", title_style="warn")
-        c.center(6, HEADLINES[self.outcome].format(time=self.time), "warn", x=12, w=56)
-        c.center(7, f"Loop {self.loop} ended.", "", x=12, w=56)
-        c.center(8, f"New in your notebook: {len(self.new_facts)}", "fact" if self.new_facts else "dim", x=12, w=56)
+        bx, bw = 5, 52  # stays left of the notebook panel
+        c.box(bx, 4, bw, h, "LOOP OVER", style="bold", title_style="warn")
+        c.center(6, HEADLINES[self.outcome].format(time=self.time), "warn", x=bx, w=bw)
+        c.center(7, f"Loop {self.loop} ended.", "", x=bx, w=bw)
+        c.center(8, f"New in your notebook: {len(self.new_facts)}", "fact" if self.new_facts else "dim", x=bx, w=bw)
         for i, fact_id in enumerate(shown):
-            c.put(18, 10 + i, f"+ {facts[fact_id].short}", "note_new")
-        c.center(4 + h - 2, f"[Enter] start loop {self.loop + 1}    [N] notebook", "bold", x=12, w=56)
+            c.put(bx + 6, 10 + i, f"+ {facts[fact_id].short}", "note_new")
+        c.center(4 + h - 2, f"[Enter] start loop {self.loop + 1}    [N] notebook", "bold", x=bx, w=bw)
         c.fill(0, 23, 80, 1)
         key_bar(c, 23, "[Enter] next loop  [N] notebook")
 
@@ -101,7 +102,7 @@ class WinScreen(Screen):
         for i, line in enumerate(VALVE):
             c.center(2 + i, line, "water_hi" if i == 7 else "ok")
         c.center(11, "THE VALVE OPENS. MARROW IS SAFE.", "ok")
-        c.center(12, f"Vera turned the wheel at {self.time}. The water roars harmlessly down the spillway.", "")
+        c.center(12, f"Vera turns the wheel at {self.time}. The water roars down the spillway.", "")
         loops = len(self.stats.outcomes)
         c.center(14, f"Loops: {loops}    In-game time used: {time_used_text(self.stats.ticks_used)}    "
                      f"Rumours started: {self.stats.rumours_started}", "bold")

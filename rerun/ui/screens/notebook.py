@@ -38,7 +38,7 @@ class NotebookScreen(Screen):
                 is_new = fact_id in self.new
                 mark = "*" if is_new else "-"
                 prefix = f" {mark} L{notebook.entries[fact_id].loop:<2} "
-                for i, part in enumerate(wrap(fact.text, 70)):
+                for i, part in enumerate(wrap(fact.text, 74 - len(prefix))):
                     lines.append(((prefix if i == 0 else " " * len(prefix)) + part, "note_new" if is_new else "note"))
             lines.append(("", ""))
         questions = notebook.open_questions(list(game.content.questions))
